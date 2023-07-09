@@ -1,0 +1,18 @@
+title Adding a new note 
+note right of browser: user write in input tag
+note right of browser: click on submit button
+browser->server: POST new note to https://studies.cs.helsinki.fi/exampleapp/new_note
+server-->browser: Response 302 Found
+browser->server: GET HTML to https://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: HTML code
+browser->server: GET CSS to https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: GET JS to https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
+note over browser: browser starts executing js code that request JSON data from server
+browser->server: GET data.json to https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{content: "6", date: "2023-07-09T11:32:52.914Z"}, etc, etc ...]
+note over browser: browser execute event handler that renders notes to display
+note right of browser: the user sees the added note
+
+this diagram was generated with https://sequencediagram.org

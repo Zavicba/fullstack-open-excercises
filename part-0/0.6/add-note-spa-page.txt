@@ -1,0 +1,9 @@
+title Adding a new note in SPA page
+note right of browser: user write in input tag
+note right of browser: click on submit button
+browser->server: POST new note to https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+server-->browser: Response 201 Created
+note over browser: browser execute event handler that renders notes to display
+note right of browser: the user sees the added note
+
+this diagram was generated with https://sequencediagram.org
