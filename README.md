@@ -2,9 +2,11 @@
 
 ## Resolved 
 - part0 - 09/07/23
-
-## Unresolved
 - part01
+  - 1.1 - 10/07/23
+  - 1.2 - 10/07/23
+  
+## Unresolved
 - part02
 - part03
 - part04
