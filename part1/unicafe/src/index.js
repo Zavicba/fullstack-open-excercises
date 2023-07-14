@@ -5,17 +5,25 @@ const Statistics = ({good, neutral, bad, all, average, positive, haveComments}) 
     if (haveComments) {
         return (
             <>
-                <p>good {good}</p>
-                <p>neutral {neutral}</p>
-                <p>bad {bad}</p>
-                <p>all {all}</p>
-                <p>average {average}</p>
-                <p>positive {positive} %</p>
+                <StatisticLine text={'good'} value={good}/>
+                <StatisticLine text={'neutral'} value={neutral}/>
+                <StatisticLine text={'bad'} value={bad}/>
+                <StatisticLine text={'all'} value={all}/>
+                <StatisticLine text={'average'} value={average}/>
+                <StatisticLine text={'positive'} value={positive}/>
             </>
         )
     } else {
         return <p>No feedback given</p>
     }
+}
+
+const Button = ({text, handler}) => {
+    return <button onClick={handler}>{text}</button>
+}
+
+const StatisticLine = ({text, value}) => {
+    return <p>{text} {value}</p>
 }
 
 const App = () => {
@@ -36,9 +44,9 @@ const App = () => {
     return (
         <div>
             <h1>give feedback</h1>
-            <button onClick={handleGood}>good</button>
-            <button onClick={handleNeutral}>neutral</button>
-            <button onClick={handleBad}>bad</button>
+            <Button text={'good'} handler={handleGood}/>
+            <Button text={'neutral'} handler={handleNeutral}/>
+            <Button text={'bad'} handler={handleBad}/>
 
             <h2>statistics</h2>
             <Statistics good={good} neutral={neutral} bad={bad} all={all} average={average} positive={positive} haveComments={haveComments} />
