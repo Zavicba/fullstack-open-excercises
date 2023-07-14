@@ -1,16 +1,29 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const TableRow = ({text, value}) => {
+    return (
+        <tr>
+            <td>{text}</td>
+            <td>{value}</td>
+        </tr>
+    )
+}
+
 const Statistics = ({good, neutral, bad, all, average, positive, haveComments}) => {
     if (haveComments) {
         return (
             <>
-                <StatisticLine text={'good'} value={good}/>
-                <StatisticLine text={'neutral'} value={neutral}/>
-                <StatisticLine text={'bad'} value={bad}/>
-                <StatisticLine text={'all'} value={all}/>
-                <StatisticLine text={'average'} value={average}/>
-                <StatisticLine text={'positive'} value={positive}/>
+                <table>
+                    <tbody>
+                        <TableRow text={'good'} value={good}/>
+                        <TableRow text={'neutral'} value={neutral}/>
+                        <TableRow text={'bad'} value={bad}/>
+                        <TableRow text={'all'} value={all}/>
+                        <TableRow text={'average'} value={average}/>
+                        <TableRow text={'positive'} value={positive}/>
+                    </tbody>
+                </table>
             </>
         )
     } else {
@@ -20,10 +33,6 @@ const Statistics = ({good, neutral, bad, all, average, positive, haveComments}) 
 
 const Button = ({text, handler}) => {
     return <button onClick={handler}>{text}</button>
-}
-
-const StatisticLine = ({text, value}) => {
-    return <p>{text} {value}</p>
 }
 
 const App = () => {
