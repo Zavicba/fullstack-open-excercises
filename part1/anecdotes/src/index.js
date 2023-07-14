@@ -16,12 +16,32 @@ const App = (props) => {
         setPoints(copy)
     }
 
+    const getMostVotedAnecdote = () => {
+        let maxValue = points[0]
+        let mostVotedIndex = 0
+
+        points.forEach((anecdote, index) => {
+            if (anecdote >= maxValue) {
+                maxValue = anecdote
+                mostVotedIndex = index
+            }
+        })
+
+        return mostVotedIndex
+    }
+
+    const mostVotedAnecdote = getMostVotedAnecdote()
+
     return (
         <div>
+            <h1>Anecdote of the day</h1>
             {props.anecdotes[selected]}
             <p>has {points[selected]} votes</p>
             <button onClick={handlePoints}>vote</button>
             <button onClick={handleAnecdote}>next anecdote</button>
+
+            <h2>Anecdote with most votes</h2>
+            {props.anecdotes[mostVotedAnecdote]}
         </div>
     )
 }
