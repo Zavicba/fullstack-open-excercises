@@ -1,4 +1,7 @@
 import React, {useState, useEffect} from 'react'
+import PersonForm from "./components/PersonForm";
+import Persons from "./components/Persons";
+import Filter from "./components/Filter";
 
 const App = () => {
     const personsData = [
@@ -54,26 +57,16 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
-            <div>
-                <input onChange={handleOnChangeFilter}/>
-            </div>
+
+            <Filter handleOnChangeFilter={handleOnChangeFilter}/>
 
             <h2>Add a new</h2>
-            <form>
-                <div>
-                    name: <input onChange={handleOnChangeName}/>
-                </div>
-                <div>
-                    number: <input onChange={handleOnChangeNumber}/>
-                </div>
-                <div>
-                    <button type="submit" onClick={handleSubmit}>add</button>
-                </div>
-            </form>
+
+            <PersonForm handleOnChangeName={handleOnChangeName} handleOnChangeNumber={handleOnChangeNumber} handleSubmit={handleSubmit}/>
 
             <h2>Numbers</h2>
 
-            {persons.map(person => <p key={person.name}>{person.name} {person.number}</p>)}
+            <Persons persons={persons}/>
         </div>
     )
 }
