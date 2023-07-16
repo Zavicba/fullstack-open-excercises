@@ -17,17 +17,14 @@ const Header = ({name}) => {
 }
 
 const Content = ({parts}) => {
-    let totalExercise = 0
+    let totalExercise = parts.reduce((total, part) => total + part.exercises, 0)
 
     return (
         <>
             {
-                parts.map(part => {
-                    totalExercise += part.exercises
-                    return <Part key={part.id} name={part.name} exercises={part.exercises}/>
-                })
+                parts.map(part => { return <Part key={part.id} name={part.name} exercises={part.exercises}/>})
             }
-            <strong>total of {totalExercise} exercises</strong>
+            <p><strong>total of {totalExercise} exercises</strong></p>
         </>
     )
 }
