@@ -1,4 +1,5 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 
 const Course = ({course}) => {
     const {name, parts} = course
@@ -16,10 +17,18 @@ const Header = ({name}) => {
 }
 
 const Content = ({parts}) => {
+    let totalExercise = 0
+
     return (
-        parts.map(part => {
-            return <Part key={part.id} name={part.name} exercises={part.exercises}/>
-        })
+        <>
+            {
+                parts.map(part => {
+                    totalExercise += part.exercises
+                    return <Part key={part.id} name={part.name} exercises={part.exercises}/>
+                })
+            }
+            <strong>total of {totalExercise} exercises</strong>
+        </>
     )
 }
 
@@ -54,3 +63,5 @@ const App = () => {
 }
 
 export default App
+
+ReactDOM.render(<App />, document.getElementById('root'))
