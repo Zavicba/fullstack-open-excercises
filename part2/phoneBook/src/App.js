@@ -4,6 +4,7 @@ const App = () => {
     const [persons, setPersons] = useState([
         {name: 'Arto Hellas'}
     ])
+
     const [newName, setNewName] = useState('')
 
     const handleSubmit = (event) => {
@@ -12,8 +13,11 @@ const App = () => {
             name: newName,
         }
 
+        if (persons.some(person => person.name === newName)) {
+            return alert(`${newName} is already added to phonebook`);
+        }
+
         setPersons(persons.concat(addNewName))
-        setNewName('')
     }
 
     const handleOnChange = (event) => {
