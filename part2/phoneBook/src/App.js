@@ -2,31 +2,35 @@ import React, {useState, useEffect} from 'react'
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
+import axios from 'axios'
 
 const App = () => {
-    const personsData = [
-        {name: 'Arto Hellas', number: '040-123456'},
-        {name: 'Ada Lovelace', number: '39-44-5323523'},
-        {name: 'Dan Abramov', number: '12-43-234345'},
-        {name: 'Mary Poppendieck', number: '39-23-6423122'}
-    ]
-
-    const [persons, setPersons] = useState(personsData)
+    const [data, setData] = useState([])
+    const [persons, setPersons] = useState(data)
 
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
-    const [filteredPersons, setFilteredPersons] = useState('')
+    const [filterInput, setFilterInput] = useState('')
+
+    useEffect(() => {
+        axios
+            .get('http://localhost:3001/persons')
+            .then(response => {
+                setPersons(response.data)
+                setData(response.data)
+            })
+    }, [])
 
     // I added this useEffect because I didn't like how the list behaved, it wasn't really dynamic. sorry if I ahead of a lesson
     useEffect(() => {
-        if (filteredPersons.length < 1) {
-            setPersons(personsData)
+        if (filterInput.length < 1) {
+            setPersons(data)
             return
         }
 
-        let filteredPersonsByName = persons.filter(person => person.name.toLowerCase().includes(filteredPersons.toLowerCase()))
+        let filteredPersonsByName = persons.filter(person => person.name.toLowerCase().includes(filterInput.toLowerCase()))
         setPersons(filteredPersonsByName)
-    }, [filteredPersons])
+    }, [filterInput])
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -51,7 +55,7 @@ const App = () => {
     }
 
     const handleOnChangeFilter = (event) => {
-        setFilteredPersons(event.target.value)
+        setFilterInput(event.target.value)
     }
 
     return (
