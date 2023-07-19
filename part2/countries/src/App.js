@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 
 import axios from 'axios'
 
-const CountryList = ({countries}) => {
+const CountryList = ({countries, handleShowButton}) => {
     if (countries.length === 1) {
         return (
            <Country country={countries[0]}/>
@@ -10,7 +10,7 @@ const CountryList = ({countries}) => {
     }
 
     return countries.length <= 10
-        ? countries.map(country => <p>{country.name.common}</p>)
+        ? countries.map(country => <p key={country.name.common}>{country.name.common} <button onClick={() => handleShowButton(country)}>show</button></p>)
         : <p>Too many matches, specify another filter</p>
 }
 
@@ -25,7 +25,7 @@ const Country = ({country}) => {
 
             <h3>languages</h3>
             <ul>
-                {languages.map(language => <li>{language}</li>)}
+                {languages.map(language => <li key={language}>{language}</li>)}
             </ul>
 
             <img src={country.coatOfArms.png} style={{ width: '100px', height: '100px' }} alt="country icon"/>
@@ -35,9 +35,10 @@ const Country = ({country}) => {
 
 const App = () => {
     const [countries, setCountries] = useState([])
-
     const [filteredCountries, setFilteredCountries] = useState([])
     const [inputValue, setInputValue] = useState('')
+    const [showCountry, setShowCountry] = useState(false)
+    const [country, setCountry] =useState([])
 
     useEffect(() => {
         axios
@@ -61,12 +62,19 @@ const App = () => {
 
     const handleOnChange = (event) => {
       setInputValue(event.target.value)
+      setShowCountry(false)
+    }
+
+    const handleShowButton = (country) => {
+        setShowCountry(true)
+        setCountry(country)
     }
 
     return (
         <div>
             <p>find countries <input type="text" onChange={handleOnChange}/></p>
-            <CountryList countries={filteredCountries}/>
+            <CountryList countries={filteredCountries} handleShowButton={handleShowButton}/>
+            {showCountry && <Country country={country}/>}
         </div>
     )
 }
