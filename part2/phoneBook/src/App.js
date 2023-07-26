@@ -3,6 +3,7 @@ import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import axios from 'axios'
+import {logDOM} from "@testing-library/react";
 
 const App = () => {
     const [data, setData] = useState([])
@@ -42,6 +43,15 @@ const App = () => {
         if (persons.some(person => person.name === newName)) {
             return alert(`${newName} is already added to phonebook`);
         }
+
+        axios
+            .post('http://localhost:3001/persons',{
+                name: newName,
+                number: newNumber
+            })
+            .then(() => {
+                console.log("name added successfully")
+            })
 
         setPersons(persons.concat(newPerson))
     }
