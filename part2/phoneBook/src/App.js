@@ -2,8 +2,7 @@ import React, {useState, useEffect} from 'react'
 import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
-import axios from 'axios'
-import {logDOM} from "@testing-library/react";
+import personService from './service/persons'
 
 const App = () => {
     const [data, setData] = useState([])
@@ -14,8 +13,8 @@ const App = () => {
     const [filterInput, setFilterInput] = useState('')
 
     useEffect(() => {
-        axios
-            .get('http://localhost:3001/persons')
+        personService
+            .getPersons()
             .then(response => {
                 setPersons(response.data)
                 setData(response.data)
@@ -44,14 +43,10 @@ const App = () => {
             return alert(`${newName} is already added to phonebook`);
         }
 
-        axios
-            .post('http://localhost:3001/persons',{
-                name: newName,
-                number: newNumber
-            })
-            .then(() => {
-                console.log("name added successfully")
-            })
+        personService
+            .createPerson(newName, newNumber)
+            .then(() => console.log("name added successfully"))
+            .catch(()=> console.log("could not add name"))
 
         setPersons(persons.concat(newPerson))
     }
