@@ -63,6 +63,20 @@ const App = () => {
         setFilterInput(event.target.value)
     }
 
+    const handleDelete = async (id, name) => {
+        const deleteUser = window.confirm(`Delete ${name}?`);
+
+        if (deleteUser) {
+            try {
+                await personService.deletePerson(id);
+                console.log("Name deleted successfully");
+                setPersons(persons.filter(person => person.id !== id))
+            } catch (error) {
+                console.log("Could not delete name");
+            }
+        }
+    };
+
     return (
         <div>
             <h2>Phonebook</h2>
@@ -75,7 +89,7 @@ const App = () => {
 
             <h2>Numbers</h2>
 
-            <Persons persons={persons}/>
+            <Persons persons={persons} handleDelete={handleDelete}/>
         </div>
     )
 }
