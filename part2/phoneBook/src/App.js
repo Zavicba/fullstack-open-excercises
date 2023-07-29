@@ -32,21 +32,37 @@ const App = () => {
         setPersons(filteredPersonsByName)
     }, [filterInput])
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault()
         const newPerson = {
             name: newName,
             number: newNumber
         }
 
-        if (persons.some(person => person.name === newName)) {
-            return alert(`${newName} is already added to phonebook`);
+        let existPerson = persons.find(person => person.name === newName)
+
+        if (existPerson) {
+            const updateNumber = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`);
+
+            if (updateNumber) {
+                try {
+                    await personService.updatePerson(existPerson.id, newPerson)
+                    console.log(`${newName} update successfully`)
+                    setPersons(persons.map(person =>
+                        person.id === existPerson.id ? { id: existPerson.id, name: newName, number: newNumber } : person)
+                    )
+                    return
+                } catch (error) {
+                    console.log("Could not update name");
+                    return
+                }
+            }
         }
 
         personService
             .createPerson(newName, newNumber)
             .then(() => console.log("name added successfully"))
-            .catch(()=> console.log("could not add name"))
+            .catch(() => console.log("could not add name"))
 
         setPersons(persons.concat(newPerson))
     }
@@ -77,6 +93,10 @@ const App = () => {
         }
     };
 
+    const handleUpdate = () => {
+
+    }
+
     return (
         <div>
             <h2>Phonebook</h2>
@@ -85,7 +105,8 @@ const App = () => {
 
             <h2>Add a new</h2>
 
-            <PersonForm handleOnChangeName={handleOnChangeName} handleOnChangeNumber={handleOnChangeNumber} handleSubmit={handleSubmit}/>
+            <PersonForm handleOnChangeName={handleOnChangeName} handleOnChangeNumber={handleOnChangeNumber}
+                        handleSubmit={handleSubmit}/>
 
             <h2>Numbers</h2>
 

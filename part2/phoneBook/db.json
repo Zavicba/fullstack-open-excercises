@@ -22,7 +22,7 @@
     },
     {
       "name": "pepe grillo",
-      "number": "12345",
+      "number": "12341234",
       "id": 6
     },
     {
@@ -39,11 +39,6 @@
       "name": "pepe grillo junior ",
       "number": "1111 111 111",
       "id": 9
-    },
-    {
-      "name": "alejandro magno",
-      "number": "0000 0000 00001",
-      "id": 10
     }
   ]
 }
