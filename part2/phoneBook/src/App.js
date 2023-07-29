@@ -3,6 +3,7 @@ import PersonForm from "./components/PersonForm";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import personService from './service/persons'
+import Notification from "./components/Notification";
 
 const App = () => {
     const [data, setData] = useState([])
@@ -11,6 +12,8 @@ const App = () => {
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [filterInput, setFilterInput] = useState('')
+    const [notification, setNotification] = useState('')
+    const [status, setStatus] = useState(false)
 
     useEffect(() => {
         personService
@@ -47,10 +50,17 @@ const App = () => {
             if (updateNumber) {
                 try {
                     await personService.updatePerson(existPerson.id, newPerson)
-                    console.log(`${newName} update successfully`)
                     setPersons(persons.map(person =>
                         person.id === existPerson.id ? { id: existPerson.id, name: newName, number: newNumber } : person)
                     )
+
+                    console.log(`${newName} update successfully`)
+                    setNotification(`Number update successfully`)
+                    setTimeout(() => {
+                        setNotification(null)
+                    }, 5000)
+
+                    setStatus(true)
                     return
                 } catch (error) {
                     console.log("Could not update name");
@@ -61,7 +71,16 @@ const App = () => {
 
         personService
             .createPerson(newName, newNumber)
-            .then(() => console.log("name added successfully"))
+            .then(() => {
+                setNotification(`Added ${newName}`)
+
+                setTimeout(() => {
+                    setNotification(null)
+                }, 5000)
+
+                setStatus(true)
+                console.log("name added successfully")
+            })
             .catch(() => console.log("could not add name"))
 
         setPersons(persons.concat(newPerson))
@@ -101,12 +120,13 @@ const App = () => {
         <div>
             <h2>Phonebook</h2>
 
+            {notification && <Notification message={notification} status={status}/>}
+
             <Filter handleOnChangeFilter={handleOnChangeFilter}/>
 
             <h2>Add a new</h2>
 
-            <PersonForm handleOnChangeName={handleOnChangeName} handleOnChangeNumber={handleOnChangeNumber}
-                        handleSubmit={handleSubmit}/>
+            <PersonForm handleOnChangeName={handleOnChangeName} handleOnChangeNumber={handleOnChangeNumber} handleSubmit={handleSubmit}/>
 
             <h2>Numbers</h2>
 
