@@ -55,15 +55,20 @@ const App = () => {
                     )
 
                     console.log(`${newName} update successfully`)
+
                     setNotification(`Number update successfully`)
                     setTimeout(() => {
                         setNotification(null)
                     }, 5000)
-
                     setStatus(true)
                     return
                 } catch (error) {
                     console.log("Could not update name");
+                    setNotification(`could not update the number of ${newName}`)
+                    setTimeout(() => {
+                        setNotification(null)
+                    }, 5000)
+                    setStatus(false)
                     return
                 }
             }
@@ -108,13 +113,14 @@ const App = () => {
                 setPersons(persons.filter(person => person.id !== id))
             } catch (error) {
                 console.log("Could not delete name");
+                setNotification(`could not delete information of ${newName}`)
+                setTimeout(() => {
+                    setNotification(null)
+                }, 5000)
+                setStatus(false)
             }
         }
     };
-
-    const handleUpdate = () => {
-
-    }
 
     return (
         <div>
